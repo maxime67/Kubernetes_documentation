@@ -481,6 +481,7 @@ curl -sfL https://get.k3s.io | sh -s - server \
   --tls-san=$IP_PUBLIQUE \
   --flannel-iface=tailscale0 \
   --write-kubeconfig-mode=644
+  --etcd-expose-metrics
 ```
 
 **Explication des options :**
@@ -495,6 +496,7 @@ curl -sfL https://get.k3s.io | sh -s - server \
 | `--tls-san` | IP autorisées dans le certificat TLS de l’API (Tailscale + publique pour kubectl distant) |
 | `--flannel-iface` | Force Flannel à utiliser l’interface Tailscale |
 | `--write-kubeconfig-mode` | Permet la lecture du kubeconfig sans sudo. Acceptable sur des VPS mono-utilisateur |
+| `--etcd-expose-metrics` | Expose les métriques etcd sur `127.0.0.1:2379/metrics` pour Prometheus |
 
 ### Vérification
 
@@ -569,6 +571,7 @@ curl -sfL https://get.k3s.io | sh -s - server \
   --tls-san=$IP_PUBLIQUE \
   --flannel-iface=tailscale0 \
   --write-kubeconfig-mode=644
+  --etcd-expose-metrics
 ```
 
 ### Vérification
@@ -4178,7 +4181,13 @@ prometheus:
     replicas: 1
     retention: 15d
     retentionSize: "8GB"
-
+    additionalScrapeConfigs:
+      - job_name: 'etcd'
+        static_configs:
+          - targets:
+              - '100.112.1.80:2382'  # ⚠️ IP Tailscale nœud 1
+              - '100.112.179.112:2382'  # ⚠️ IP Tailscale nœud 2
+              - '100.72.21.63:2382'  # ⚠️ IP Tailscale nœud 3
     storageSpec:
       volumeClaimTemplate:
         spec:
