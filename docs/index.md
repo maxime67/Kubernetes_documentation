@@ -3659,6 +3659,8 @@ spec:
           port: 6443
         - protocol: TCP
           port: 10250  # kubelet /metrics/cadvisor
+        - protocol: TCP
+          port: 2382   # etcd metrics
     # node-exporter (hostNetwork, IP du nœud)
     - ports:
         - protocol: TCP
