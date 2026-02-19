@@ -4222,34 +4222,7 @@ prometheus:
 
 # --- Alertmanager ---
 alertmanager:
-  alertmanagerSpec:
-    replicas: 1
-    retention: 120h
-
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: longhorn
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 2Gi
-
-    resources:
-      requests:
-        cpu: 50m
-        memory: 64Mi
-      limits:
-        cpu: 200m
-        memory: 256Mi
-
-    tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
+  enabled: false
 
 # --- Grafana ---
 grafana:
