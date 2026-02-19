@@ -4340,6 +4340,10 @@ grafana:
         gnetId: 16966
         revision: 1
         datasource: Loki
+      etcd:
+        gnetId: 3070
+        revision: 3
+        datasource: Prometheus
 
   # Ingress Grafana (exposé via Traefik + cert-manager)
   ingress:
